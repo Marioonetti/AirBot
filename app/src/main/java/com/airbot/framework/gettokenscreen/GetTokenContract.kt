@@ -1,6 +1,6 @@
 package com.airbot.framework.gettokenscreen
 
-import com.airbot.domain.MyToken
+import com.airbot.domain.model.MyToken
 
 interface GetTokenContract {
 

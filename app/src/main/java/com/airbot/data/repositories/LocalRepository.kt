@@ -1,7 +1,7 @@
 package com.airbot.data.repositories
 
 import com.airbot.data.model.toTokenEntity
-import com.airbot.domain.MyToken
+import com.airbot.domain.model.MyToken
 import com.airbot.sources.local.LocalDataSource
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow

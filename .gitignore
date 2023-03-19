@@ -65,3 +65,4 @@ google-services.p12
 # Crashlytics configuration files
 com_crashlytics_export_strings.xml
 crashlytics.properties
+.idea/gradle.xml

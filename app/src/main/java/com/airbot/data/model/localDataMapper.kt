@@ -1,6 +1,6 @@
 package com.airbot.data.model
 
-import com.airbot.domain.MyToken
+import com.airbot.domain.model.MyToken
 
 fun TokenEntity.toMyToken(): MyToken {
     return MyToken(token)

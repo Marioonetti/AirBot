@@ -23,6 +23,7 @@ import kotlinx.coroutines.launch
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun GetTokenScreen(
+    onNavigate: (UiEvent.Navigate) -> Unit,
     viewModel: GetTokenViewModel = hiltViewModel(),
     /*onNavigate: (UiEvent.Navigate) -> Unit*/
 ) {
@@ -33,7 +34,7 @@ fun GetTokenScreen(
     LaunchedEffect(key1 = true) {
         viewModel.uiEvent.collect { event ->
             when (event) {
-                is UiEvent.Navigate -> TODO()
+                is UiEvent.Navigate -> onNavigate(event)
                 is UiEvent.OnBackNavigate -> TODO()
                 is UiEvent.ShowSnackbar -> {
                     scaffoldState.snackbarHostState.showSnackbar(
