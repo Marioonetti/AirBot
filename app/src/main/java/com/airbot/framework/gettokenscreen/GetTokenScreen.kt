@@ -24,8 +24,7 @@ import kotlinx.coroutines.launch
 @Composable
 fun GetTokenScreen(
     onNavigate: (UiEvent.Navigate) -> Unit,
-    viewModel: GetTokenViewModel = hiltViewModel(),
-    /*onNavigate: (UiEvent.Navigate) -> Unit*/
+    viewModel: GetTokenViewModel = hiltViewModel()
 ) {
 
     val scaffoldState = rememberScaffoldState()

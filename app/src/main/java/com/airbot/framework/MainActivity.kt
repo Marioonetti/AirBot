@@ -42,7 +42,6 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun AirBotApp(){
     val navController = rememberNavController()
-    //val navBackStackEntry by navController.currentBackStackEntryAsState()
 
     Scaffold(content = {
         Box(modifier = Modifier.padding(it)) {

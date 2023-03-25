@@ -22,7 +22,7 @@ import javax.inject.Inject
 @HiltViewModel
 data class GetTokenViewModel @Inject constructor(
     private val localRepository: LocalRepository
-) : ViewModel(){
+): ViewModel(){
 
 
     private val _getTokenState : MutableStateFlow<GetTokenContract.StateGetToken> by lazy {
