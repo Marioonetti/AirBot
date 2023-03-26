@@ -17,7 +17,13 @@ class LocalRepository @Inject constructor(
         return localDataSource.getToken().flowOn(Dispatchers.IO)
     }
 
+    fun checkExistToken(): Int = localDataSource.checkExistToken()
+
     fun insertToken(token: MyToken) {
         localDataSource.insertToken(token.toTokenEntity())
+    }
+
+    suspend fun clearToken() {
+        localDataSource.clearTokens()
     }
 }

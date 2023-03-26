@@ -2,7 +2,7 @@ package com.airbot.sources.di
 
 import android.os.Build
 import androidx.annotation.RequiresApi
-import com.airbot.utils.Constantes
+import com.airbot.utils.Constants
 import com.google.gson.*
 import dagger.Module
 import dagger.Provides
@@ -78,7 +78,7 @@ object NetworkModule {
         gson: Gson
     ): Retrofit {
         return Retrofit.Builder()
-            .baseUrl(Constantes.BASE_URL)
+            .baseUrl(Constants.BASE_URL)
             .client(okHttpClient)
             .addConverterFactory(GsonConverterFactory.create(gson))
             .build()

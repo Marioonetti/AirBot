@@ -7,5 +7,5 @@ fun TokenEntity.toMyToken(): MyToken {
 }
 
 fun MyToken.toTokenEntity(): TokenEntity {
-    return TokenEntity(0, token)
+    return TokenEntity(1, token)
 }

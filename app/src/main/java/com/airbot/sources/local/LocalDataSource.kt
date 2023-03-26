@@ -12,5 +12,9 @@ class LocalDataSource @Inject constructor(
 
     fun getToken(): Flow<String> = airBotDao.getToken()
 
+    fun checkExistToken() : Int  = airBotDao.checkExistToken()
+
     fun insertToken(tokenEntity: TokenEntity) = airBotDao.insertToken(tokenEntity)
+
+    suspend fun clearTokens() = airBotDao.clearTokens()
 }

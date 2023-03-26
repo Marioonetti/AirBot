@@ -9,6 +9,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.airbot.data.repositories.LocalRepository
 import com.airbot.domain.model.MyToken
+import com.airbot.framework.gettokenscreen.GetTokenScreenConstants.ERROR_CLEAR_TOKENS
+import com.airbot.framework.gettokenscreen.GetTokenScreenConstants.ERROR_GET_TOKEN
 import com.airbot.utils.NavigationConstants
 import com.airbot.utils.UiEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -46,15 +48,25 @@ data class GetTokenViewModel @Inject constructor(
                         localRepository.insertToken(MyToken(token))
                         sendUiEvent(UiEvent.Navigate(NavigationConstants.LISTA_CHATS_SCREEN))
                     }catch (e: Exception){
-                        e.message?.let { Log.e("Error al insertar el token", it) }
+                        e.message?.let { Log.e(ERROR_GET_TOKEN, it) }
                     }
                 }
             }
 
+
             is GetTokenContract.Event.onTokenChange -> {
                 token = event.token
             }
+            GetTokenContract.Event.clearToken ->{
+                viewModelScope.launch {
+                    try {
+                        localRepository.clearToken()
 
+                    }catch (e: Exception){
+                        e.message?.let { Log.e(ERROR_CLEAR_TOKENS, it) }
+                    }
+                }
+            }
         }
     }
 

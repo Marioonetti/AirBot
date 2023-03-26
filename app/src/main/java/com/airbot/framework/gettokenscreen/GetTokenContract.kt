@@ -7,6 +7,8 @@ interface GetTokenContract {
     sealed class Event{
         object insertToken : Event()
         data class onTokenChange(val token: String) : Event()
+
+        object clearToken : Event()
     }
 
 
