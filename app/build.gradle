@@ -121,8 +121,10 @@ dependencies {
     implementation "androidx.compose.material:material-icons-extended:$compose_ui_version"
 
     // Stream SDK
-    implementation "io.getstream:stream-chat-android-compose:5.4.0"
-    implementation "androidx.compose.material:material-icons-extended:$compose_ui_version"
+    implementation "io.getstream:stream-chat-android-compose:5.15.0"
+
+
+
 }
 
 kapt {

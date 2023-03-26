@@ -2,6 +2,7 @@ package com.airbot.sources.di
 
 import android.os.Build
 import androidx.annotation.RequiresApi
+import com.airbot.sources.remote.ChatService
 import com.airbot.utils.Constants
 import com.google.gson.*
 import dagger.Module
@@ -91,7 +92,9 @@ object NetworkModule {
         return cacheDataUser
     }
 
-
+    @Singleton
+    @Provides
+    fun chatService(retrofit: Retrofit): ChatService = retrofit.create(ChatService::class.java)
 
 
 }
