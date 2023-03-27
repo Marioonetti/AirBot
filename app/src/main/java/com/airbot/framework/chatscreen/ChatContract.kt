@@ -9,6 +9,8 @@ interface ChatContract {
     sealed class Event{
         data class onMessageChange(val message: String) : Event()
 
+
+
         data class sendMessage(val chat: Chat) : Event()
 
 

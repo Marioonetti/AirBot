@@ -3,15 +3,19 @@ package com.airbot.framework.chatscreen
 import android.annotation.SuppressLint
 import android.util.Log
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.airbot.data.repositories.ChatRepository
 import com.airbot.data.repositories.LocalRepository
+import com.airbot.domain.model.MessageAirBot
 import com.airbot.framework.chatscreen.ChatConstant.ERROR_SEND_MESSAGE
 import com.airbot.utils.NetworkResult
+import com.airbot.utils.UiEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -23,14 +27,19 @@ data class ChatViewModel @Inject constructor(
 ) : ViewModel() {
 
 
-    private val _getChatState: MutableStateFlow<ChatContract.StateChat> by lazy {
+    private val _chatState: MutableStateFlow<ChatContract.StateChat> by lazy {
         MutableStateFlow(ChatContract.StateChat())
     }
-    val getTokenState: StateFlow<ChatContract.StateChat> = _getChatState
+    val chatState: StateFlow<ChatContract.StateChat> = _chatState
+
+    private val _uiEvent = Channel<UiEvent> ()
+    val uiEvent = _uiEvent.receiveAsFlow()
 
     var message by mutableStateOf("")
         private set
 
+    var listMessage =  mutableStateListOf<MessageAirBot>()
+        private set
     @SuppressLint("LongLogTag")
     fun handleEvent(event: ChatContract.Event) {
         when (event) {
@@ -49,12 +58,26 @@ data class ChatViewModel @Inject constructor(
                             when (result) {
 
                                 is NetworkResult.Loading -> {
-                                    _getChatState.update { it.copy(isLoading = true) }
+                                    _chatState.update { it.copy(isLoading = true) }
                                 }
                                 is NetworkResult.Succcess -> {
-                                    _getChatState.update {
+                                    _chatState.update { it.copy(isLoading = false) }
+                                    result.data?.choices?.map{ choice -> choice.message }
+                                        ?.map { message -> message.content }?.get(0)
+                                        ?.let { listMessage.add(MessageAirBot("system",it)) }
+
+                                    /*_getChatState.update {
                                         it.copy(listMessages = result.data?.choices?.map{ choice -> choice.message }
                                             ?.map { message -> message.content }?.get(0))
+                                    }*/
+                                }
+                                is NetworkResult.Error -> {
+                                    result.message?.let { mensaje ->
+                                        sendUiEvent(
+                                            UiEvent.ShowSnackbar(
+                                                message = mensaje
+                                            )
+                                        )
                                     }
                                 }
                             }
@@ -65,6 +88,12 @@ data class ChatViewModel @Inject constructor(
                     }
                 }
             }
+        }
+    }
+
+    private fun sendUiEvent(event: UiEvent) {
+        viewModelScope.launch {
+            _uiEvent.send(event)
         }
     }
 }

@@ -11,6 +11,7 @@ import com.airbot.data.repositories.LocalRepository
 import com.airbot.domain.model.MyToken
 import com.airbot.framework.gettokenscreen.GetTokenScreenConstants.ERROR_CLEAR_TOKENS
 import com.airbot.framework.gettokenscreen.GetTokenScreenConstants.ERROR_GET_TOKEN
+import com.airbot.sources.di.CacheTokenOpenAI
 import com.airbot.utils.NavigationConstants
 import com.airbot.utils.UiEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -23,7 +24,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 data class GetTokenViewModel @Inject constructor(
-    private val localRepository: LocalRepository
+    private val localRepository: LocalRepository,
+    private val cacheTokenOpenAI: CacheTokenOpenAI
 ): ViewModel(){
 
 
@@ -46,6 +48,7 @@ data class GetTokenViewModel @Inject constructor(
                 viewModelScope.launch {
                     try {
                         localRepository.insertToken(MyToken(token))
+                        cacheTokenOpenAI.token = token
                         sendUiEvent(UiEvent.Navigate(NavigationConstants.LISTA_CHATS_SCREEN))
                     }catch (e: Exception){
                         e.message?.let { Log.e(ERROR_GET_TOKEN, it) }

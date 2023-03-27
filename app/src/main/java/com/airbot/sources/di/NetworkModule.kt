@@ -2,6 +2,7 @@ package com.airbot.sources.di
 
 import android.os.Build
 import androidx.annotation.RequiresApi
+import com.airbot.data.repositories.LocalRepository
 import com.airbot.sources.remote.ChatService
 import com.airbot.utils.Constants
 import com.google.gson.*
@@ -25,8 +26,8 @@ object NetworkModule {
 
     @Singleton
     @Provides
-    fun provideHttpClient(cacheTokenOpenAI: CacheTokenOpenAI): OkHttpClient {
-        val authorizationInterceptor = AuthorizationInterceptor(cacheTokenOpenAI)
+    fun provideHttpClient(cacheTokenOpenAI: CacheTokenOpenAI,localRepository: LocalRepository): OkHttpClient {
+        val authorizationInterceptor = AuthorizationInterceptor(cacheTokenOpenAI,localRepository)
         return OkHttpClient
             .Builder()
             .protocols(listOf(Protocol.HTTP_1_1))
