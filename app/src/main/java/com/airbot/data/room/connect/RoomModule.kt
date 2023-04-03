@@ -31,4 +31,8 @@ object RoomModule {
 
     @Provides
     fun airbotDao(airBotRoomDataBase: AirBotRoomDataBase) = airBotRoomDataBase.airbotDao()
+
+
+    @Provides
+    fun chatDao(airBotRoomDataBase: AirBotRoomDataBase) = airBotRoomDataBase.chatDao()
 }

@@ -1,6 +1,6 @@
 package com.airbot.sources.di
 
-import com.airbot.data.repositories.LocalRepository
+import com.airbot.data.repositories.TokenRepository
 import okhttp3.HttpUrl
 import okhttp3.Interceptor
 import okhttp3.Request
@@ -11,7 +11,7 @@ class AuthorizationInterceptor @Inject constructor(
     private val cache: CacheTokenOpenAI
 ) : Interceptor {
     @Inject
-    lateinit var localRepository: LocalRepository
+    lateinit var tokenRepository: TokenRepository
     override fun intercept(chain: Interceptor.Chain): Response {
         val url: HttpUrl
         val request: Request
@@ -29,7 +29,7 @@ class AuthorizationInterceptor @Inject constructor(
             url = chain.request().url.newBuilder()
                 .addQueryParameter(
                     ConstantesNetwork.AUTHORIZATION,
-                    ConstantesNetwork.BEARER + localRepository.getToken()
+                    ConstantesNetwork.BEARER + tokenRepository.getToken()
                 )
                 .build()
             request = chain.request().newBuilder()

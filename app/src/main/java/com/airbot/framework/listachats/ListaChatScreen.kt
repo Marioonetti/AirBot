@@ -8,6 +8,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.airbot.domain.model.Chat
+import com.airbot.domain.model.Message
 import com.airbot.utils.UiEvent
 import kotlinx.coroutines.flow.collect
 
@@ -20,6 +22,8 @@ fun ListaChatScreen(
 
     val scaffoldState = rememberScaffoldState()
     val scope = rememberCoroutineScope()
+
+    val messages = mutableListOf<Message>(Message("system", "Hola"), Message("user", "Que tal?"))
 
     LaunchedEffect(key1 = true) {
         viewModel.uiEvent.collect { event ->
@@ -43,7 +47,9 @@ fun ListaChatScreen(
             Text(text = "Perfil")
         }
 
-        Button(onClick = { viewModel.handleEvent(ListaChatContract.Event.navToChat) }) {
+
+
+        Button(onClick = { viewModel.handleEvent(ListaChatContract.Event.addNewChat(Chat(id = 0, model = "test", messages = messages))) }) {
             Text(text = "Chat")
         }
     }

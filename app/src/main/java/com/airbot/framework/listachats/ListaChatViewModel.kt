@@ -2,7 +2,9 @@ package com.airbot.framework.listachats
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.airbot.data.repositories.LocalRepository
+import com.airbot.data.model.toChatWithMessages
+import com.airbot.data.repositories.ChatRepository
+import com.airbot.sources.local.ChatDataSource
 import com.airbot.utils.NavigationConstants
 import com.airbot.utils.UiEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -13,7 +15,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 data class ListaChatViewModel @Inject constructor(
-    private val localRepository: LocalRepository): ViewModel(){
+    private val chatRepository: ChatRepository): ViewModel(){
 
     private val _uiEvent = Channel<UiEvent> ()
     val uiEvent = _uiEvent.receiveAsFlow()
@@ -31,7 +33,9 @@ data class ListaChatViewModel @Inject constructor(
             is ListaChatContract.Event.navToPerfil -> {
                 sendUiEvent(UiEvent.Navigate(NavigationConstants.PERFIL_SCREEN))
             }
-
+            is ListaChatContract.Event.addNewChat -> {
+                chatRepository.insertChat(event.chat)
+            }
 
 
 

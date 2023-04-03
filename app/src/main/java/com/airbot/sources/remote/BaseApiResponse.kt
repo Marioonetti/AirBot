@@ -1,4 +1,4 @@
-package com.airbot.sources
+package com.airbot.sources.remote
 
 import android.util.Log
 import com.airbot.utils.NetworkResult

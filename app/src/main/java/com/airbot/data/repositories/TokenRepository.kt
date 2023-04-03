@@ -2,28 +2,28 @@ package com.airbot.data.repositories
 
 import com.airbot.data.model.toTokenEntity
 import com.airbot.domain.model.MyToken
-import com.airbot.sources.local.LocalDataSource
+import com.airbot.sources.local.TokenDataSource
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOn
 import javax.inject.Inject
 
-class LocalRepository @Inject constructor(
-    private val localDataSource: LocalDataSource
+class TokenRepository @Inject constructor(
+    private val tokenDataSource: TokenDataSource
 ){
 
 
     fun getToken(): Flow<String> {
-        return localDataSource.getToken().flowOn(Dispatchers.IO)
+        return tokenDataSource.getToken().flowOn(Dispatchers.IO)
     }
 
-    fun checkExistToken(): Int = localDataSource.checkExistToken()
+    fun checkExistToken(): Int = tokenDataSource.checkExistToken()
 
     fun insertToken(token: MyToken) {
-        localDataSource.insertToken(token.toTokenEntity())
+        tokenDataSource.insertToken(token.toTokenEntity())
     }
 
     suspend fun clearToken() {
-        localDataSource.clearTokens()
+        tokenDataSource.clearTokens()
     }
 }

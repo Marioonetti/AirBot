@@ -6,7 +6,7 @@ import com.airbot.data.room.dao.AirBotDao
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
-class LocalDataSource @Inject constructor(
+class TokenDataSource @Inject constructor(
     private val airBotDao: AirBotDao
 ) {
 

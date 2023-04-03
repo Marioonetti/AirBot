@@ -7,7 +7,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.airbot.data.repositories.LocalRepository
+import com.airbot.data.repositories.TokenRepository
 import com.airbot.domain.model.MyToken
 import com.airbot.framework.gettokenscreen.GetTokenScreenConstants.ERROR_CLEAR_TOKENS
 import com.airbot.framework.gettokenscreen.GetTokenScreenConstants.ERROR_GET_TOKEN
@@ -23,7 +23,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 data class GetTokenViewModel @Inject constructor(
-    private val localRepository: LocalRepository
+    private val tokenRepository: TokenRepository
 ): ViewModel(){
 
 
@@ -45,7 +45,7 @@ data class GetTokenViewModel @Inject constructor(
             is GetTokenContract.Event.insertToken -> {
                 viewModelScope.launch {
                     try {
-                        localRepository.insertToken(MyToken(token))
+                        tokenRepository.insertToken(MyToken(token))
                         sendUiEvent(UiEvent.Navigate(NavigationConstants.LISTA_CHATS_SCREEN))
                     }catch (e: Exception){
                         e.message?.let { Log.e(ERROR_GET_TOKEN, it) }
@@ -60,7 +60,7 @@ data class GetTokenViewModel @Inject constructor(
             GetTokenContract.Event.clearToken ->{
                 viewModelScope.launch {
                     try {
-                        localRepository.clearToken()
+                        tokenRepository.clearToken()
 
                     }catch (e: Exception){
                         e.message?.let { Log.e(ERROR_CLEAR_TOKENS, it) }
